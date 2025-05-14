@@ -23,21 +23,11 @@ This is a Python-based API built with **FastAPI** that allows you to retrieve th
 #### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/spotify-artist-discography-api.git
+git clone https://github.com/aramkechichian/spotify-artist-discography-api.git
 cd spotify-artist-discography-api
 ```
 
-#### 2. Install dependencies
-
-Make sure you have `python 3.7+` installed. Then, install the dependencies with the dev.sh script:
-
-```bash
-execute ./dev.sh init for install and run the app
-execute ./dev.sh stop the app
-execute ./dev.sh clear for uninstall the app and remove the virtual enviroment
-```
-
-#### 3. Set up environment variables
+#### 2. Set up environment variables
 
 Create a `.env` file in the root directory and add your Spotify credentials:
 
@@ -48,17 +38,18 @@ SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
 
 You can obtain your Spotify credentials by registering your application at the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
 
-#### 4. Run the API
+#### 3. Install dependencies and run the API
 
-Start the API server using **Uvicorn**:
+Make sure you have `python 3.7+` installed. Then, install the dependencies with the dev.sh script:
 
 ```bash
-uvicorn app.main:app --reload
+execute ./dev.sh init for install dependencies if needed and run the app
+execute ./dev.sh stop the app
+execute ./dev.sh clear for uninstall the app and remove the virtual enviroment
 ```
-
 The API will be available at `http://127.0.0.1:8000`.
 
-#### 5. Test the API
+#### 4. Test the API
 
 You can test the API with a simple HTTP GET request. Example:
 
@@ -70,7 +61,7 @@ Replace `{artist_name}` with the name of an artist (e.g., `GET http://127.0.0.1:
 
 You can also use the interactive **Swagger UI** at `http://127.0.0.1:8000/docs`.
 
-#### 6. Running Unit Tests
+#### 5. Running Unit Tests
 
 To run the unit tests:
 
