@@ -94,6 +94,7 @@ This will run all the tests defined in the `tests/` directory.
 
 ### Folder Structure
 
+```
 spotify_api/
 │
 ├── app/
@@ -120,6 +121,7 @@ spotify_api/
 ├── README.md                    # Project documentation
 └── .gitignore                   # Git ignore file for ignoring unnecessary files
 
+```
 ### License
 
 This project is licensed under the MIT License.
