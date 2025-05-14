@@ -7,8 +7,10 @@ from app.models.Artist import Album
 
 class SpotifyService:
     def __init__(self, client_id: str = None, client_secret: str = None):
-        self.client_id = client_id or os.getenv("SPOTIFY_CLIENT_ID") or "123"
-        self.client_secret = client_secret or os.getenv("SPOTIFY_CLIENT_SECRET") or "123"
+        self.client_id = client_id or os.getenv("SPOTIFY_CLIENT_ID")
+        self.client_secret = client_secret or os.getenv("SPOTIFY_CLIENT_SECRET")
+        if not self.client_id or not self.client_secret:
+            raise ValueError("Spotify client ID and secret must be provided")
         self.token = self.get_access_token()
 
     def get_access_token(self) -> str:
