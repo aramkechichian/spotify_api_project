@@ -7,8 +7,8 @@ from app.models.Artist import Album
 
 class SpotifyService:
     def __init__(self, client_id: str = None, client_secret: str = None):
-        self.client_id = client_id or os.getenv("SPOTIFY_CLIENT_ID") or "3438301bb33f4b7bacb8960104c9e780"
-        self.client_secret = client_secret or os.getenv("SPOTIFY_CLIENT_SECRET") or "c212efa4058e46f6b41855ea38d0f0c6"
+        self.client_id = client_id or os.getenv("SPOTIFY_CLIENT_ID") or "123"
+        self.client_secret = client_secret or os.getenv("SPOTIFY_CLIENT_SECRET") or "123"
         self.token = self.get_access_token()
 
     def get_access_token(self) -> str:
