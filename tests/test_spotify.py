@@ -23,7 +23,6 @@ def test_get_artist_discography_success(mock_spotify_service):
             "url": "https://spotify.com/mock_album"
         }
     ]
-
     response = client.get("/artist/MockArtist")
     assert response.status_code == 200
     assert response.json()["artist"] == "MockArtist"
