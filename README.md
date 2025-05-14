@@ -1,11 +1,12 @@
 # Spotify API
 
-This is a Python-based API built with **FastAPI** that allows you to retrieve the discography of an artist from Spotify. The API communicates with Spotify's web API using the client's credentials to fetch data such as album names, release dates, and total tracks. It follows **SOLID principles** and is designed with testability and maintainability in mind.
+This is a Python-based API built with **FastAPI** that allows you to retrieve the discography of an artist, and list of songs from Spotify. The API communicates with Spotify's web API using the client's credentials to fetch data such as album names, release dates, and total tracks. It follows **SOLID principles** and is designed with testability and maintainability in mind.
 
 ### Features
 
 - Search for an artist by name.
 - Retrieve the artist's albums, including release dates and track count.
+- Search for an songs list by name.
 - RESTful API with clear error handling.
 - Unit tests with `pytest`.
 - Authentication with Spotify using the **Client Credentials Flow**.
