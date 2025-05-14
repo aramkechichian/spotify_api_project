@@ -5,36 +5,53 @@ REQUIREMENTS="./requirements.txt"
 
 init_env() {
   if [ ! -d "$VENV_DIR" ]; then
-    echo "Creando entorno virtual..."
+    echo "Creating virtual environment..."
     python3 -m venv $VENV_DIR
   fi
 
   source $VENV_DIR/bin/activate
 
   if [ -f "$REQUIREMENTS" ]; then
-    echo "Instalando dependencias desde requirements.txt..."
+    echo "Installing dependencies from requirements.txt..."
     pip install -r $REQUIREMENTS
   fi
 
-  echo "Instalando uvicorn..."
+  echo "Installing Uvicorn..."
   pip install uvicorn
 
-  echo "Iniciando la aplicación con uvicorn..."
+  echo "Starting the application with Uvicorn..."
   uvicorn app.main:app --reload
 }
 
 stop_uvicorn() {
-  echo "Para detener uvicorn, presiona Ctrl+C o detén el proceso manualmente."
+  echo "To stop Uvicorn, press Ctrl+C or stop the process manually."
 }
 
 clear_env() {
   if [ -d "$VENV_DIR" ]; then
-    echo "Eliminando entorno virtual..."
+    echo "Removing virtual environment..."
     rm -rf $VENV_DIR
-    echo "Entorno virtual eliminado."
+    echo "Virtual environment removed."
   else
-    echo "No se encontró el entorno virtual."
+    echo "Virtual environment not found."
   fi
+}
+
+run_app() {
+  source $VENV_DIR/bin/activate
+  echo "Starting the application with Uvicorn..."
+  uvicorn app.main:app --reload
+}
+
+run_tests() {
+  if [ ! -d "$VENV_DIR" ]; then
+    echo "Virtual environment not found. Run './dev.sh init' first."
+    exit 1
+  fi
+
+  source $VENV_DIR/bin/activate
+  echo "Running tests with pytest..."
+  PYTHONPATH=. pytest -p no:warnings
 }
 
 case "$1" in
@@ -47,8 +64,14 @@ case "$1" in
   clear)
     clear_env
     ;;
+  run)
+    run_app
+    ;;
+  test)
+    run_tests
+    ;;
   *)
-    echo "Uso: ./dev.sh {init|stop|clear}"
+    echo "Usage: ./dev.sh {init|stop|clear|run|test}"
     exit 1
     ;;
 esac

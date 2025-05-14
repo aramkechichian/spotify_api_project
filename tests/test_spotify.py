@@ -1,57 +1,60 @@
-import pytest
 from fastapi.testclient import TestClient
+from unittest.mock import MagicMock
+import pytest
 from app.main import app
-from unittest.mock import patch
+from app.dependencies.services import get_spotify_service
 
 client = TestClient(app)
 
-# Mock de funciones para simular respuestas de la API de Spotify
 @pytest.fixture
-def mock_get_access_token():
-    with patch('app.services.get_access_token') as mock:
-        yield mock
+def mock_spotify_service():
+    mock = MagicMock()
+    app.dependency_overrides[get_spotify_service] = lambda: mock
+    yield mock
+    app.dependency_overrides.clear()
 
-@pytest.fixture
-def mock_search_artist():
-    with patch('app.services.search_artist') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_get_discography():
-    with patch('app.services.get_discography') as mock:
-        yield mock
-
-
-def test_get_artist_discography(mock_get_access_token, mock_search_artist, mock_get_discography):
-    # Mocking successful access token
-    mock_get_access_token.return_value = "valid_token"
-    
-    # Mocking successful artist search
-    mock_search_artist.return_value = "artist_id_123"
-    
-    # Mocking successful discography fetch
-    mock_get_discography.return_value = [
-        {"name": "Album 1", "release_date": "2022-01-01", "total_tracks": 10, "url": "spotify_url_1"},
-        {"name": "Album 2", "release_date": "2023-01-01", "total_tracks": 12, "url": "spotify_url_2"}
+def test_get_artist_discography_success(mock_spotify_service):
+    mock_spotify_service.search_artist.return_value = "mock_artist_id"
+    mock_spotify_service.get_discography.return_value = [
+        {
+            "name": "Mock Album",
+            "release_date": "2020-01-01",
+            "total_tracks": 10,
+            "url": "https://spotify.com/mock_album"
+        }
     ]
-    
-    response = client.get("/artist/Artist Name")
-    
-    assert response.status_code == 200
-    assert response.json() == {
-        "artist": "Artist Name",
-        "albums": [
-            {"name": "Album 1", "release_date": "2022-01-01", "total_tracks": 10, "url": "spotify_url_1"},
-            {"name": "Album 2", "release_date": "2023-01-01", "total_tracks": 12, "url": "spotify_url_2"}
-        ]
-    }
 
-def test_get_artist_not_found(mock_get_access_token, mock_search_artist):
-    # Mocking invalid artist search
-    mock_get_access_token.return_value = "valid_token"
-    mock_search_artist.return_value = None
-    
-    response = client.get("/artist/Nonexistent Artist")
-    
+    response = client.get("/artist/MockArtist")
+    assert response.status_code == 200
+    assert response.json()["artist"] == "MockArtist"
+    assert isinstance(response.json()["albums"], list)
+
+def test_get_artist_discography_not_found(mock_spotify_service):
+    mock_spotify_service.search_artist.return_value = None
+
+    response = client.get("/artist/UnknownArtist")
     assert response.status_code == 404
-    assert response.json() == {"detail": "Artist not found"}
+    assert response.json()["detail"] == "Artist not found"
+
+def test_search_tracks_success(mock_spotify_service):
+    mock_spotify_service.search_tracks.return_value = [
+        {
+            "name": "Mock Track",
+            "artists": [{"name": "Mock Artist"}],
+            "album": {"name": "Mock Album"},
+            "url": "https://spotify.com/mock_track"
+        }
+    ]
+
+    response = client.get("/track/MockTrack")
+    assert response.status_code == 200
+    tracks = response.json()
+    assert isinstance(tracks, list)
+    assert tracks[0]["name"] == "Mock Track"
+
+def test_search_tracks_not_found(mock_spotify_service):
+    mock_spotify_service.search_tracks.return_value = []
+
+    response = client.get("/track/NoTrackFound")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No tracks found"

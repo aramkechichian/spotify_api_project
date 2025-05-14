@@ -43,9 +43,12 @@ You can obtain your Spotify credentials by registering your application at the [
 Make sure you have `python 3.7+` installed. Then, install the dependencies with the dev.sh script:
 
 ```bash
-execute ./dev.sh init for install dependencies if needed and run the app
-execute ./dev.sh stop the app
-execute ./dev.sh clear for uninstall the app and remove the virtual enviroment
+Available Commands:
+./dev.sh init     # Create virtual environment, install dependencies, and start the app
+./dev.sh run      # Start the app (requires environment to be already set up)
+./dev.sh test     # Run tests using pytest
+./dev.sh stop     # Display message to manually stop the app (Ctrl+C)
+./dev.sh clear    # Remove the virtual environment
 ```
 The API will be available at `http://127.0.0.1:8000`.
 
@@ -66,7 +69,7 @@ You can also use the interactive **Swagger UI** at `http://127.0.0.1:8000/docs`.
 To run the unit tests:
 
 ```bash
-pytest --maxfail=1 --disable-warnings -q
+./dev.sh test
 ```
 
 This will run all the tests defined in the `tests/` directory.
@@ -81,6 +84,16 @@ This will run all the tests defined in the `tests/` directory.
 - **Response**: 
   - 200 OK: Returns the artist's albums with details like name, release date, total tracks, and a URL to the album on Spotify.
   - 404 Not Found: If the artist cannot be found.
+  - 500 Internal Server Error: If there's an error during the API request.
+
+#### `GET /track/{track_name}`
+
+- **Description**: Retrieves the list of songs.
+- **Parameters**: 
+  - `track_name`: Name of the song (e.g., "Bohemian Rhapsody").
+- **Response**: 
+  - 200 OK: Returns the song's lits with details like name, album, and a URL to the song on Spotify.
+  - 404 Not Found: If the song cannot be found.
   - 500 Internal Server Error: If there's an error during the API request.
 
 ### Folder Structure
