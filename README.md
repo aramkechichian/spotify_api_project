@@ -29,10 +29,12 @@ cd spotify-artist-discography-api
 
 #### 2. Install dependencies
 
-Make sure you have `python 3.7+` installed. Then, install the dependencies:
+Make sure you have `python 3.7+` installed. Then, install the dependencies with the dev.sh script:
 
 ```bash
-pip install -r requirements.txt
+execute ./dev.sh init for install and run the app
+execute ./dev.sh stop the app
+execute ./dev.sh clear for uninstall the app and remove the virtual enviroment
 ```
 
 #### 3. Set up environment variables
@@ -92,25 +94,31 @@ This will run all the tests defined in the `tests/` directory.
 
 ### Folder Structure
 
-```
 spotify_api/
 │
 ├── app/
-│   ├── __init__.py
-│   ├── constants.py          # Stores constant values (API URLs, limits, etc.)
-│   ├── models.py             # Pydantic models for request/response validation
-│   ├── services.py           # Functions to interact with Spotify API
-│   ├── routes.py             # API route definitions
-│   ├── main.py               # FastAPI app initialization
-│   ├── logger.py             # Logger configuration for error logging
-│   └── .env                  # Environment variables (Spotify credentials)
+│   ├── __init__.py              # Initializes the app package
+│   ├── constants.py             # Stores constant values (API URLs, limits, etc.)
+│   ├── models/                  # Pydantic models for request/response validation
+│   │   └── __init__.py          # Pydantic model definitions
+│   │   └── Artist.py            # Specific models for Spotify Artist data
+│   │   └── Song.py              # Specific models for Spotify Song data
+│   ├── services/                # Functions to interact with Spotify API
+│   │   └── __init__.py          # Initialize services module
+│   │   └── spotify_service.py   # Functions for Spotify interactions
+│   ├── routes/                  # API route definitions
+│   │   └── __init__.py          # Initialize routes module
+│   │   └── spotify_routes.py    # Define routes for Spotify API
+│   ├── main.py                  # FastAPI app initialization
+│   ├── logger.py                # Logger configuration for error logging
+│   └── .env                     # Environment variables (Spotify credentials)
 │
 ├── tests/
-│   └── test_spotify.py       # Unit tests for the API
-├── requirements.txt          # Python dependencies
-├── README.md                 # Project documentation
-└── requirements.txt          # List of dependencies for Python environment
-```
+│   └── test_spotify.py          # Unit tests for the API
+│
+├── requirements.txt             # Python dependencies
+├── README.md                    # Project documentation
+└── .gitignore                   # Git ignore file for ignoring unnecessary files
 
 ### License
 

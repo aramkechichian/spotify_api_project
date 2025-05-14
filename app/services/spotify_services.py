@@ -1,6 +1,6 @@
 import requests
-from .constants import SPOTIFY_API_BASE_URL, SPOTIFY_TOKEN_URL, SPOTIFY_GRANT_TYPE, SPOTIFY_LIMIT
-from .logger import logger
+from ..constants import SPOTIFY_API_BASE_URL, SPOTIFY_TOKEN_URL, SPOTIFY_GRANT_TYPE, SPOTIFY_LIMIT
+from ..logger import logger
 import os
 from fastapi import HTTPException
 

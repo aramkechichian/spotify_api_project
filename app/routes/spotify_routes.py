@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from ..services import SpotifyService
+from ..services.spotify_services import SpotifyService
 from ..models.Artist import ArtistDiscographyResponse
 
 router = APIRouter()
