@@ -1,6 +1,5 @@
 import logging
 
-# Configuración del logger
 logger = logging.getLogger("spotify_api")
 logger.setLevel(logging.INFO)
 console_handler = logging.StreamHandler()
